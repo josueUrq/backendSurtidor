@@ -16,9 +16,11 @@ import descuentosRoutes from "./routes/descuentos.routes.js";
 import dispensadoresRoutes from "./routes/dispensadores.routes.js";
 import mangueraRoutes from "./routes/mangueras.routes.js";
 import authRoutes from './routes/auth.routes.js';
+import { FRONTEND_URL } from "./config.js";
+
 
 const corsOptions = {
-  origin: "https://frontendsurtidor.vercel.app",
+  origin: FRONTEND_URL,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHearders: ["Content-Type"],
   credentials: true,
