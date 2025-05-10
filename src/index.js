@@ -18,7 +18,7 @@ import mangueraRoutes from "./routes/mangueras.routes.js";
 import authRoutes from './routes/auth.routes.js';
 
 const corsOptions = {
-  origin: "http://localhost:5173",
+  origin: "https://frontendsurtidor-production.up.railway.app/",
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHearders: ["Content-Type"],
   credentials: true,
