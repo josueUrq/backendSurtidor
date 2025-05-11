@@ -3,8 +3,8 @@ import { PORT } from "./config.js";
 import userRoutes from "./routes/users.routes.js";
 import morgan from "morgan";
 import cors from "cors";
-import path from "path"
-import { fileURLToPath } from 'url';
+import path from "path";
+import { fileURLToPath } from "url";
 import generalRoutes from "./routes/general.routes.js";
 import rolRoutes from "./routes/rol.routes.js";
 import asistenciasRoutes from "./routes/asistencia.routes.js";
@@ -15,14 +15,21 @@ import productosRoutes from "./routes/productos.routes.js";
 import descuentosRoutes from "./routes/descuentos.routes.js";
 import dispensadoresRoutes from "./routes/dispensadores.routes.js";
 import mangueraRoutes from "./routes/mangueras.routes.js";
-import authRoutes from './routes/auth.routes.js';
+import authRoutes from "./routes/auth.routes.js";
 import { FRONTEND_URL } from "./config.js";
 
+const allowedOrigins = [FRONTEND_URL, "http://localhost:5173"];
 
 const corsOptions = {
-  origin: FRONTEND_URL,
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHearders: ["Content-Type"],
+  allowedHeaders: ["Content-Type"],
   credentials: true,
 };
 
@@ -34,7 +41,7 @@ app.use(cors(corsOptions));
 app.options("*", cors(corsOptions));
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/api/uploads', express.static(path.resolve('uploads')));
+app.use("/api/uploads", express.static(path.resolve("uploads")));
 app.use(morgan("dev"));
 app.use(express.json());
 app.use("/api", userRoutes);
@@ -45,9 +52,9 @@ app.use("/api", categoriasRoutes);
 app.use("/api/combustibles", combustibleRoutes);
 app.use("/api/proveedores", proveedoresRoutes);
 app.use("/api/productos", productosRoutes);
-app.use("/api/descuentos",descuentosRoutes);
-app.use("/api/dispensadores",dispensadoresRoutes);
-app.use("/api/mangueras",mangueraRoutes);
-app.use("/api",authRoutes);
+app.use("/api/descuentos", descuentosRoutes);
+app.use("/api/dispensadores", dispensadoresRoutes);
+app.use("/api/mangueras", mangueraRoutes);
+app.use("/api", authRoutes);
 app.listen(PORT);
 console.log("server on port ", PORT);
