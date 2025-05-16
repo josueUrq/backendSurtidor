@@ -17,6 +17,7 @@ import dispensadoresRoutes from "./routes/dispensadores.routes.js";
 import mangueraRoutes from "./routes/mangueras.routes.js";
 import authRoutes from "./routes/auth.routes.js";
 import { FRONTEND_URL } from "./config.js";
+import tanquesRoutes from "./routes/tanques.routes.js";
 
 const allowedOrigins = [FRONTEND_URL, "http://localhost:5173"];
 
@@ -56,5 +57,6 @@ app.use("/api/descuentos", descuentosRoutes);
 app.use("/api/dispensadores", dispensadoresRoutes);
 app.use("/api/mangueras", mangueraRoutes);
 app.use("/api", authRoutes);
+app.use("/api/tanques", tanquesRoutes);
 app.listen(PORT);
 console.log("server on port ", PORT);

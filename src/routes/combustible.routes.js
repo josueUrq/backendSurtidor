@@ -1,20 +1,23 @@
-import express from "express";
+import { Router } from "express";
 import { 
-    getCombustibles,
-    createCombustible,
-    updateCombustible,
-    deleteCombustible
- } from "../controllers/combustible.controller.js";
+  getCombustibles, 
+  getAllCombustibles,
+  getCombustible,
+  createCombustible, 
+  updateCombustible, 
+  deleteCombustible,
+  getCombustiblesConProductos
+} from "../controllers/combustible.controller.js";
 
-const router = express.Router();
+const router = Router();
 
-//obtener combusstibles
+// Rutas para combustibles
 router.get("/", getCombustibles);
-// Crear nuevo combustible
+router.get("/all", getAllCombustibles);
+router.get("/with-products", getCombustiblesConProductos);
+router.get("/:id", getCombustible);
 router.post("/", createCombustible);
-// Actualizar un combustible
-router.put("/:id",updateCombustible );
-// Eliminar un combustible
-router.delete("/:id",deleteCombustible );
+router.put("/:id", updateCombustible);
+router.delete("/:id", deleteCombustible);
 
 export default router;
