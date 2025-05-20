@@ -15,7 +15,7 @@ export const createProducto = async (req, res) => {
       categoria_id,
       sucursal_id,
       proveedor_id,
-      oferta_id,
+      descuento_id,
     } = req.body;
 
     // Aquí detectamos si subieron imagen
@@ -40,7 +40,7 @@ VALUES ($1, $2, $3, $4, $5, $6, $7, $8,$9,$10,$11,$12,$13,$14)
         categoria_id,
         sucursal_id,
         proveedor_id,
-        oferta_id === "" ? null : oferta_id,
+        descuento_id === "" ? null : descuento_id,
       ]
     );
 
@@ -70,7 +70,7 @@ export const updateProducto = async (req, res) => {
       categoria_id,
       sucursal_id,
       esta_activo,
-      oferta_id,
+      descuento_id,
     } = req.body;
 
     // Detectar si hay nueva imagen
@@ -97,7 +97,7 @@ export const updateProducto = async (req, res) => {
         categoria_id,
         sucursal_id,
         proveedor_id,
-        oferta_id === "" ? null : oferta_id,
+        descuento_id === "" ? null : descuento_id,
         id,
       ]
     );
