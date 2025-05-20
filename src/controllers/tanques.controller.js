@@ -3,9 +3,16 @@ import { pool } from '../db.js';
 // Obtener todos los tanques
 export const getTanques = async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM tanque');
+    const { id_sucursal } = req.query;
+    
+    if (!id_sucursal) {
+      return res.status(400).json({ message: 'Se requiere el ID de la sucursal' });
+    }
+
+    const result = await pool.query('SELECT * FROM tanque WHERE id_sucursal = $1', [id_sucursal]);
     res.json(result.rows);
   } catch (error) {
+    console.error('Error al obtener los tanques:', error);
     res.status(500).json({ message: 'Error al obtener los tanques' });
   }
 };
