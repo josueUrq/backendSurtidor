@@ -18,6 +18,7 @@ import mangueraRoutes from "./routes/mangueras.routes.js";
 import authRoutes from "./routes/auth.routes.js";
 import { FRONTEND_URL } from "./config.js";
 import tanquesRoutes from "./routes/tanques.routes.js";
+import bitacoraRoutes from "./routes/bitacora.routes.js";
 
 const allowedOrigins = [FRONTEND_URL, "http://localhost:5173"];
 
@@ -42,6 +43,8 @@ app.use(cors(corsOptions));
 app.options("*", cors(corsOptions));
 app.use(express.urlencoded({ extended: true }));
 
+app.set("trust proxy", true);
+
 app.use("/api/uploads", express.static(path.resolve("uploads")));
 app.use(morgan("dev"));
 app.use(express.json());
@@ -58,5 +61,6 @@ app.use("/api/dispensadores", dispensadoresRoutes);
 app.use("/api/mangueras", mangueraRoutes);
 app.use("/api", authRoutes);
 app.use("/api/tanques", tanquesRoutes);
+app.use("/api/bitacora",bitacoraRoutes);
 app.listen(PORT);
 console.log("server on port ", PORT);
