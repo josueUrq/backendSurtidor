@@ -1,4 +1,5 @@
---CREATE DATABASE surtidorDB;
+SELECT * FROM public.bitacora
+ORDER BY id ASC 
 
 CREATE TABLE rol (
 id UUID DEFAULT gen_random_uuid() PRIMARY KEY NOT NULL,
@@ -56,7 +57,7 @@ ci VARCHAR(40) NOT NULL UNIQUE,
 nombre VARCHAR(40) NOT NULL,
 telefono VARCHAR(20) NOT NULL,
 sexo CHAR(1) NOT NULL,
-correo VARCHAR(30) NOT NULL UNIQUE,
+correo TEXT NOT NULL UNIQUE,
 domicilio VARCHAR(40) NOT NULL,
 contraseña TEXT NOT NULL,
 id_sucursal UUID,
@@ -205,8 +206,6 @@ nombre VARCHAR(40) NOT NULL,
 nit VARCHAR(20) NOT NULL,
 placa VARCHAR(10) NOT NULL UNIQUE,
 b_sisa BOOLEAN NOT NULL,
-cantidad_mensual_vendida int,
-ultima_fecha DATE,
 id_sucursal UUID NOT NULL,
 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 FOREIGN KEY (id_sucursal) REFERENCES sucursal(id) ON DELETE CASCADE ON
@@ -263,7 +262,8 @@ INSERT INTO permiso (nombre, descripcion) VALUES
 ('gestionar_proveedores', 'Puede crear, editar y eliminar proveedores'),
 ('gestionar_compras', 'Puede ver y registrar compras'),
 ('gestionar_ofertas', 'Puede ver y crear ofertas'),
-('gestionar_historial_asistencias', 'Puede ver todo el historico de asistencias');
+('gestionar_historial_asistencias', 'Puede ver todo el historico de asistencias'),
+('ver_bitacora', 'Puede ver la bitacora');
 
 SELECT * FROM permiso;
 -- TABLA PERMISO_ROL
@@ -396,3 +396,17 @@ where nombre = 'GNV')),
 (80, 1.66, 132.8, (Select id from nota_venta where codigo = 'NV001'), (Select id from producto
 where nombre = 'GNV'));
 SELECT * FROM detalle_venta;
+
+CREATE TABLE  vehiculos (
+    id SERIAL PRIMARY KEY,
+    placa VARCHAR(10) UNIQUE NOT NULL,
+    propietario VARCHAR(100),
+    modelo VARCHAR(50),
+    marca VARCHAR(50),
+    anio INTEGERs
+);
+
+
+INSERT INTO vehiculos (placa, propietario, modelo, marca, anio) VALUES
+('ABC123', 'Juan Pérez', 'Hilux', 'Toyota', 2018),
+('ZXC456', 'María López', 'Creta', 'Hyundai', 2020)

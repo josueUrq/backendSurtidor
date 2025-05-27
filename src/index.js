@@ -18,6 +18,9 @@ import mangueraRoutes from "./routes/mangueras.routes.js";
 import authRoutes from "./routes/auth.routes.js";
 import { FRONTEND_URL } from "./config.js";
 import tanquesRoutes from "./routes/tanques.routes.js";
+import clienteRoutes from "./routes/clientes.routes.js";
+import stripeRoutes from './routes/stripe.routes.js';
+
 import bitacoraRoutes from "./routes/bitacora.routes.js";
 
 const allowedOrigins = [FRONTEND_URL, "http://localhost:5173"];
@@ -53,6 +56,9 @@ app.use("/api", generalRoutes);
 app.use("/api", rolRoutes);
 app.use("/api/asistencia", asistenciasRoutes);
 app.use("/api", categoriasRoutes);
+app.use("/api", clienteRoutes);
+
+app.use('/api/stripe', stripeRoutes);
 app.use("/api/combustibles", combustibleRoutes);
 app.use("/api/proveedores", proveedoresRoutes);
 app.use("/api/productos", productosRoutes);
