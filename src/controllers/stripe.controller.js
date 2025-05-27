@@ -1,12 +1,13 @@
 import Stripe from 'stripe';
 import { pool } from "../db.js";
+import { FRONTEND_URL } from "../config.js";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export const crearSessionPago = async (req, res) => {
-  const { monto } = req.body;
+  const { montoPorCobrar } = req.body;
 
-  if (!monto || isNaN(monto) || parseFloat(monto) <= 0) {
+  if (!montoPorCobrar || isNaN(montoPorCobrar) || parseFloat(montoPorCobrar) <= 0) {
     return res.status(400).json({ error: 'Monto inválido o menor a 1 USD' });
   }
 
@@ -22,14 +23,16 @@ export const crearSessionPago = async (req, res) => {
             product_data: {
               name: "Carga de combustible",
             },
-            unit_amount: Math.round(monto * 100), 
+            unit_amount: Math.round(montoPorCobrar * 100), 
           },
           quantity: 1,
         },
       ],
       mode: 'payment',
-      success_url: 'http://localhost:5173/success',
-      cancel_url: 'http://localhost:5173/cancel',
+      //success_url: `http://localhost:5173/success`,
+      //cancel_url: 'http://localhost:5173/cancel',
+      success_url: `${FRONTEND_URL}/success`,
+      cancel_url: `${FRONTEND_URL}/cancel`,
     });
 
     res.json({ url: session.url });
@@ -54,7 +57,6 @@ export const verificarFactura = async (req, res) => {
       id_cliente,
       created_at
     } = req.body;
-
     // Validación de campos
     if (
       !codigo || !monto_pagado || !id_usuario || !hora ||
@@ -73,9 +75,9 @@ export const verificarFactura = async (req, res) => {
        RETURNING *`,
       [
         codigo,
-        monto_pagado.toString(),
+        monto_pagado,
         monto_por_cobrar,
-        monto_cambio.toString(),
+        monto_cambio,
         hora,
         id_sucursal,
         id_usuario,

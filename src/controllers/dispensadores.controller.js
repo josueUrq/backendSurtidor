@@ -14,6 +14,20 @@ export const getDispensadoresDeSucursal = async (req, res) => {
     res.status(500).json({ message: "Error al obtener dispensadores" });
   }
 };
+// Obtener dispensadores de una sucursal Activos
+export const getDispensadoresDeSucursalActivo = async (req, res) => {
+  const { sucursalId } = req.params;
+  try {
+    const { rows } = await pool.query(
+      "SELECT * FROM dispensador WHERE id_sucursal = $1 AND estado = 'Activo'",
+      [sucursalId]
+    );
+    res.json(rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Error al obtener dispensadores" });
+  }
+};
 
 // Crear un dispensador para una sucursal
 export const createDispensadoresDeSucursal = async (req, res) => {

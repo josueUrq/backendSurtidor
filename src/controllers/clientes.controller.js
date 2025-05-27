@@ -20,10 +20,10 @@ export const buscarClientePorPlaca = async (req, res) => {
 
 
 export const registrarCliente = async (req, res) => {
-  const { nombre, nit, placa, b_sisa, id_sucursal } = req.body;
+  const { nombre, nit, placa, b_sisa, sucursalId } = req.body;
 
  
-  if (!nombre || !nit || !placa || b_sisa === undefined || !id_sucursal) {
+  if (!nombre || !nit || !placa || b_sisa === undefined || !sucursalId) {
     return res.status(400).json({ mensaje: "Faltan datos obligatorios" });
   }
 
@@ -41,7 +41,7 @@ export const registrarCliente = async (req, res) => {
       `INSERT INTO cliente (nombre, nit, placa, b_sisa, id_sucursal)
        VALUES ($1, $2, $3, $4, $5)
        RETURNING *`,
-      [nombre, nit, placa, b_sisa, id_sucursal]
+      [nombre, nit, placa, b_sisa,sucursalId]
     );
 
     res.status(201).json(resultado.rows[0]);
