@@ -1,11 +1,5 @@
 import { pool } from "../db.js";
-import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc.js';
-import timezone from 'dayjs/plugin/timezone.js';
-
-dayjs.extend(utc);
-dayjs.extend(timezone);
-
+import { DateTime } from "luxon";
 
 export const getBitacora = async (req, res) => {
   try {
@@ -40,20 +34,30 @@ export const registrarEntrada = async (req, res) => {
     req.socket?.remoteAddress ||
     (req.connection?.socket ? req.connection.socket.remoteAddress : null);
 
-  const fechaBolivia = dayjs().tz("America/La_Paz");
-  const fechaEntrada = fechaBolivia.format("YYYY-MM-DD");
-  const horaEntrada = fechaBolivia.format("HH:mm:ss");
+  // Obtener fecha y hora exactas de Bolivia
+  const boliviaNow = DateTime.now().setZone("America/La_Paz");
+  const fechaEntrada = boliviaNow.toFormat("yyyy-MM-dd");
+  const horaEntrada = boliviaNow.toFormat("HH:mm:ss");
+
+  // DEBUG: Imprimir en consola para verificar
+  console.log("Fecha y hora Bolivia:", boliviaNow.toString());
+  console.log("Fecha entrada:", fechaEntrada, "Hora entrada:", horaEntrada);
 
   try {
     await pool.query(
       `
-      INSERT INTO bitacora (usuario_id, ip, fecha_entrada, hora_entrada, acciones,estado)
+      INSERT INTO bitacora (usuario_id, ip, fecha_entrada, hora_entrada, acciones, estado)
       VALUES ($1, $2, $3, $4, $5, $6)
+      RETURNING id, fecha_entrada, hora_entrada
     `,
       [usuarioId, ip, fechaEntrada, horaEntrada, acciones, estado]
     );
 
-    res.json({ success: true });
+    res.json({
+      success: true,
+      fecha: fechaEntrada,
+      hora: horaEntrada
+    });
   } catch (error) {
     console.error("Error al registrar entrada:", error);
     res.status(500).json({ error: "Error al registrar entrada" });
