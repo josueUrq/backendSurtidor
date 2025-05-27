@@ -36,7 +36,7 @@ export const registrarEntrada = async (req, res) => {
 
   // Obtener fecha y hora exactas de Bolivia
   const boliviaNow = DateTime.now().setZone("America/La_Paz");
-  const fechaEntrada = boliviaNow.toFormat("yyyy-MM-dd");
+  const fechaEntrada = boliviaNow.plus(day, 1).toFormat("yyyy-MM-dd");
   const horaEntrada = boliviaNow.toFormat("HH:mm:ss");
 
   // DEBUG: Imprimir en consola para verificar
