@@ -14,7 +14,7 @@ export const getBitacora = async (req, res) => {
         b.estado
       FROM bitacora b
       JOIN usuario u ON b.usuario_id = u.id
-      ORDER BY b.fecha_entrada, b.hora_entrada DESC;
+      ORDER BY b.fecha_entrada DESC, b.hora_entrada DESC;
     `);
 
     res.json(result.rows);
@@ -52,7 +52,7 @@ export const registrarEntrada = async (req, res) => {
     res.json({
       success: true,
       fecha: fechaEntrada,
-      hora: horaEntrada
+      hora: horaEntrada,
     });
   } catch (error) {
     console.error("Error al registrar entrada:", error);
