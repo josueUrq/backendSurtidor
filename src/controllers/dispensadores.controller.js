@@ -31,14 +31,14 @@ export const getDispensadoresDeSucursalActivo = async (req, res) => {
 
 // Crear un dispensador para una sucursal
 export const createDispensadoresDeSucursal = async (req, res) => {
-  const { id_sucursal, ubicacion, estado, capacidad_maxima } = req.body;
+  const { id_sucursal, ubicacion, estado, capacidad_maxima,id_tanque } = req.body;
 
   try {
     const { rows } = await pool.query(
-      `INSERT INTO dispensador (id_sucursal, ubicacion, estado, capacidad_maxima)
-       VALUES ($1, $2, $3, $4)
+      `INSERT INTO dispensador (id_sucursal, ubicacion, estado, capacidad_maxima,id_tanque)
+       VALUES ($1, $2, $3, $4,$5)
        RETURNING *`,
-      [id_sucursal, ubicacion, estado, capacidad_maxima]
+      [id_sucursal, ubicacion, estado, capacidad_maxima,id_tanque]
     );
     res.status(201).json(rows[0]);
   } catch (err) {
@@ -50,17 +50,17 @@ export const createDispensadoresDeSucursal = async (req, res) => {
 // Actualizar un dispensador
 export const updateDispensadoresDeSucursal = async (req, res) => {
   const { dispensadorId } = req.params;
-  const { ubicacion, estado, capacidad_maxima } = req.body;
-
+  const { ubicacion, estado, capacidad_maxima,id_tanque } = req.body;
   try {
     const { rows } = await pool.query(
       `UPDATE dispensador
        SET ubicacion = $1,
            estado = $2,
-           capacidad_maxima = $3
-       WHERE id = $4
+           capacidad_maxima = $3,
+           id_tanque = $4
+       WHERE id = $5
        RETURNING *`,
-      [ubicacion, estado, capacidad_maxima, dispensadorId]
+      [ubicacion, estado, capacidad_maxima,id_tanque, dispensadorId]
     );
 
     if (rows.length === 0) {
