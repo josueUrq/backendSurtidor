@@ -20,8 +20,8 @@ import { FRONTEND_URL } from "./config.js";
 import tanquesRoutes from "./routes/tanques.routes.js";
 import clienteRoutes from "./routes/clientes.routes.js";
 import stripeRoutes from './routes/stripe.routes.js';
-
 import bitacoraRoutes from "./routes/bitacora.routes.js";
+import quejasRoutes from "./routes/quejas.routes.js"; // ← NUEVA LÍNEA
 
 const allowedOrigins = [FRONTEND_URL, "http://localhost:5173"];
 
@@ -57,7 +57,6 @@ app.use("/api", rolRoutes);
 app.use("/api/asistencia", asistenciasRoutes);
 app.use("/api", categoriasRoutes);
 app.use("/api", clienteRoutes);
-
 app.use('/api/stripe', stripeRoutes);
 app.use("/api/combustibles", combustibleRoutes);
 app.use("/api/proveedores", proveedoresRoutes);
@@ -67,6 +66,8 @@ app.use("/api/dispensadores", dispensadoresRoutes);
 app.use("/api/mangueras", mangueraRoutes);
 app.use("/api", authRoutes);
 app.use("/api/tanques", tanquesRoutes);
-app.use("/api/bitacora",bitacoraRoutes);
+app.use("/api/bitacora", bitacoraRoutes);
+app.use("/api/quejas", quejasRoutes); // ← NUEVA LÍNEA
+
 app.listen(PORT);
 console.log("server on port ", PORT);
