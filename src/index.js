@@ -22,6 +22,7 @@ import clienteRoutes from "./routes/clientes.routes.js";
 import stripeRoutes from './routes/stripe.routes.js';
 import ordenesCompraRoutes from "./routes/ordenesCompra.routes.js";
 import bitacoraRoutes from "./routes/bitacora.routes.js";
+import sucursalModulosRoutes from "./routes/sucursal_modulos.routes.js";
 
 const allowedOrigins = [FRONTEND_URL, "http://localhost:5173"];
 
@@ -70,5 +71,6 @@ app.use("/api/mangueras", mangueraRoutes);
 app.use("/api", authRoutes);
 app.use("/api/tanques", tanquesRoutes);
 app.use("/api/bitacora",bitacoraRoutes);
+app.use("/api", sucursalModulosRoutes);
 app.listen(PORT);
 console.log("server on port ", PORT);
