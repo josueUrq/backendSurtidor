@@ -74,7 +74,7 @@ app.use("/api", authRoutes);
 app.use("/api/tanques", tanquesRoutes);
 app.use("/api/bitacora", bitacoraRoutes);
 app.use("/api/quejas", quejasRoutes); 
-app.use("/api//historial-ventas",historialVentasRoutes);
+app.use("/api/historial-ventas",historialVentasRoutes);
 app.use("/api/sucursales",sucursalesRoutes)
 
 app.use("/api", sucursalModulosRoutes);
