@@ -4,21 +4,45 @@ import { validationResult } from "express-validator";
 
 export const getUsers = async (req, res) => {
   try {
-    const { rows } = await pool.query(`
-      SELECT 
-        u.id,
-        u.ci,
-        u.nombre,
-        u.telefono,
-        u.sexo,
-        u.correo,
-        u.domicilio,
-        s.nombre AS sucursal,
-        r.nombre AS rol
+    const { nombre, ci, rol, sexo } = req.query;
+
+    let query = `
+      SELECT u.id,
+             u.ci,
+             u.nombre,
+             u.telefono,
+             u.sexo,
+             u.correo,
+             u.domicilio,
+             s.nombre AS sucursal,
+             r.nombre AS rol
       FROM usuario u
       JOIN sucursal s ON u.id_sucursal = s.id
       JOIN rol r ON u.id_rol = r.id
-    `);
+      WHERE 1=1
+    `;
+
+    const params = [];
+    let index = 1;
+
+    if (nombre) {
+      query += ` AND u.nombre ILIKE $${index++}`;
+      params.push(`%${nombre}%`);
+    }
+    if (ci) {
+      query += ` AND u.ci = $${index++}`;
+      params.push(ci);
+    }
+    if (rol) {
+      query += ` AND r.nombre = $${index++}`;
+      params.push(rol);
+    }
+    if (sexo) {
+      query += ` AND u.sexo = $${index++}`;
+      params.push(sexo);
+    }
+
+    const { rows } = await pool.query(query, params);
 
     if (rows.length === 0) {
       return res.status(404).json({ message: "users not found" });
@@ -30,6 +54,7 @@ export const getUsers = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
 
 export const loginProcess = async (req, res) => {
   try {
