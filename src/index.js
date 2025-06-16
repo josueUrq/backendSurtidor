@@ -23,6 +23,7 @@ import stripeRoutes from './routes/stripe.routes.js';
 import ordenesCompraRoutes from "./routes/ordenesCompra.routes.js";
 import bitacoraRoutes from "./routes/bitacora.routes.js";
 import quejasRoutes from "./routes/quejas.routes.js"; // ← NUEVA LÍNEA
+import sucursalesRoutes from "./routes/sucursales.routes.js";
 
 const allowedOrigins = [FRONTEND_URL, "http://localhost:5173"];
 
@@ -71,6 +72,7 @@ app.use("/api", authRoutes);
 app.use("/api/tanques", tanquesRoutes);
 app.use("/api/bitacora", bitacoraRoutes);
 app.use("/api/quejas", quejasRoutes); // ← NUEVA LÍNEA
+app.use("/api/sucursales", sucursalesRoutes);
 
 app.listen(PORT);
 console.log("server on port ", PORT);
