@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getHistorialVentas, deleteVenta  } from "../controllers/historialventas.controller.js";
+import { getHistorialVentas, deleteVenta  } from "../controllers/historialVentas.controller.js";
 
 const router = Router();
 
