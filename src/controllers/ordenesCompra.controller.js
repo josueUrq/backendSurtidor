@@ -8,14 +8,17 @@ export const listarOrdenesCompra = async (req, res) => {
         nc.hora,
         nc.monto_total,
         nc.created_at,
-        nc.estado, -- ✅ Agregar estado
+        nc.estado,
+        nc.cantidad, 
         p.nombre AS proveedor,
         s.nombre AS sucursal,
-        u.nombre AS usuario
+        u.nombre AS usuario,
+        t.nombre AS tanque
       FROM nota_de_compra nc
       JOIN proveedor p ON p.id = nc.id_proveedor
       JOIN sucursal s ON s.id = nc.id_sucursal
       JOIN usuario u ON u.id = nc.id_usuario
+      JOIN tanque t ON t.id = nc.id_tanque
       ORDER BY nc.created_at DESC
     `);
 
@@ -37,10 +40,11 @@ export const agregarOrdenCompra = async (req, res) => {
       monto_total,
       id_proveedor,
       id_sucursal,
-      id_usuario
+      id_usuario,
+      id_tanque
     } = req.body;
 
-    if (!hora || !monto_total || !id_proveedor || !id_sucursal || !id_usuario) {
+    if (!hora || !monto_total || !id_proveedor || !id_sucursal || !id_usuario || !id_tanque) {
       return res.status(400).json({ ok: false, msg: "Faltan datos requeridos" });
     }
 
@@ -48,10 +52,10 @@ export const agregarOrdenCompra = async (req, res) => {
 
     const result = await pool.query(
       `INSERT INTO nota_de_compra 
-        (hora, monto_total, id_proveedor, id_sucursal, id_usuario)
-       VALUES ($1, $2, $3, $4, $5)
+        (hora, monto_total, id_proveedor, id_sucursal, id_usuario,id_tanque)
+       VALUES ($1, $2, $3, $4, $5, $6)
        RETURNING *`,
-      [horaStr, monto_total, id_proveedor, id_sucursal, id_usuario]
+      [horaStr, monto_total, id_proveedor, id_sucursal, id_usuario,id_tanque]
     );
 
     res.status(201).json({
