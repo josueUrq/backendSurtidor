@@ -13,12 +13,12 @@ export const getProveedores = async (req, res) => {
   
   // Crear un nuevo proveedor
 export const createProveedor = async (req, res) => {
-    const { nombre, telefono, correo, direccion, nit, detalle } = req.body;
+    const { nombre, telefono, correo, direccion, nit, detalle,estado } = req.body;
     try {
       const result = await pool.query(
-        `INSERT INTO proveedor (nombre, telefono, correo, direccion, nit, detalle)
-         VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
-        [nombre, telefono, correo, direccion, nit, detalle]
+        `INSERT INTO proveedor (nombre, telefono, correo, direccion, nit, detalle,estado)
+         VALUES ($1, $2, $3, $4, $5, $6,$7) RETURNING *`,
+        [nombre, telefono, correo, direccion, nit, detalle,estado]
       );
       res.status(201).json(result.rows[0]);
     } catch (err) {
@@ -30,13 +30,13 @@ export const createProveedor = async (req, res) => {
   // Actualizar proveedor por ID
  export const updateProveedor = async (req, res) => {
     const { id } = req.params;
-    const { nombre, telefono, correo, direccion, nit, detalle } = req.body;
+    const { nombre, telefono, correo, direccion, nit, detalle,estado } = req.body;
     try {
       const result = await pool.query(
         `UPDATE proveedor 
-         SET nombre = $1, telefono = $2, correo = $3, direccion = $4, nit = $5, detalle = $6
-         WHERE id = $7 RETURNING *`,
-        [nombre, telefono, correo, direccion, nit, detalle, id]
+         SET nombre = $1, telefono = $2, correo = $3, direccion = $4, nit = $5, detalle = $6,estado= $7
+         WHERE id = $8 RETURNING *`,
+        [nombre, telefono, correo, direccion, nit, detalle,estado, id]
       );
   
       if (result.rowCount === 0) {
