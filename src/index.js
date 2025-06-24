@@ -84,7 +84,7 @@ app.use("/api", sucursalModulosRoutes);
 app.use("/api/notificaciones", notificacionesRoutes);
 app.use("/api/alertas", alertasRoutes);
 
-app.use('/seguridad-sucursal', seguridadSucursalRoutes);
+app.use("/api/seguridad-sucursal", seguridadSucursalRoutes);
 
 app.listen(PORT);
 console.log("server on port ", PORT);
