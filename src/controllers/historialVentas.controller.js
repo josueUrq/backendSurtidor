@@ -29,7 +29,8 @@ export const getHistorialVentas = async (req, res) => {
     nv.cantidad,
     nv.monto_por_cobrar,
     nv.created_at,
-    nv.hora
+    nv.hora,
+    nv.observaciones
   FROM nota_venta nv
   LEFT JOIN cliente c ON nv.id_cliente = c.id
   ${whereClause}

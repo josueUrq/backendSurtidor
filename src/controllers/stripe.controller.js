@@ -55,7 +55,8 @@ export const verificarFactura = async (req, res) => {
       id_usuario,
       id_dispensador,
       id_cliente,
-      created_at
+      created_at,
+      observaciones = ""
     } = req.body;
     // Validación de campos
     if (
@@ -68,10 +69,10 @@ export const verificarFactura = async (req, res) => {
     const result = await pool.query(
       `INSERT INTO nota_venta 
         (codigo, monto_pagado, monto_por_cobrar, monto_cambio, hora,
-         id_sucursal, id_usuario, id_dispensador, id_cliente, created_at)
+         id_sucursal, id_usuario, id_dispensador, id_cliente, created_at, observaciones)
        VALUES 
         ($1, $2, $3, $4, $5,
-         $6, $7, $8, $9, $10)
+         $6, $7, $8, $9, $10, $11)
        RETURNING *`,
       [
         codigo,
@@ -83,7 +84,8 @@ export const verificarFactura = async (req, res) => {
         id_usuario,
         id_dispensador,
         id_cliente,
-        created_at
+        created_at,
+        observaciones || ""
       ]
     );
 
